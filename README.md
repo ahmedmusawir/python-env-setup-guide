@@ -1,22 +1,30 @@
-# 🐍 Python Environment Setup Guide (Repeatable for All Projects)
+# 🛠️ Python Project Environment Setup Guide
 
-This is Tony Stark's official Python environment rig — designed to be reused across all serious AI, automation, scraping, and LangChain projects. This is also future-proofed for Udemy tutorial inclusion.
+## 1. Install `pyenv`
 
----
-
-## ✅ Step-by-Step Setup (Repeatable Rig)
-
-### 1. Install `pyenv`
+Ensure `pyenv` is installed to manage Python versions:
 
 ```bash
 curl https://pyenv.run | bash
 ```
 
-> Also add `pyenv init` to your shell profile (`.bashrc`, `.zshrc`, etc.)
+After installation, add the following to your shell configuration file (`~/.bashrc`, `~/.zshrc`, etc.):
+
+```bash
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
+```
+
+Reload your shell:
+
+```bash
+source ~/.bashrc  # or source ~/.zshrc
+```
 
 ---
 
-### 2. Create Project Folder and Enter It
+## 2. Create Project Directory
 
 ```bash
 mkdir crawl4ai-exp-project-v1
@@ -25,7 +33,7 @@ cd crawl4ai-exp-project-v1
 
 ---
 
-### 3. Install Target Python Version (e.g., 3.12.3)
+## 3. Install Target Python Version
 
 ```bash
 pyenv install 3.12.3
@@ -33,33 +41,44 @@ pyenv install 3.12.3
 
 ---
 
-### 4. Activate It for the Project
+## 4. Set Local Python Version
 
 ```bash
 pyenv local 3.12.3
 ```
 
-> This creates a `.python-version` file in the current directory.
-
 ---
 
-### 5. Install Poetry (If Not Already Installed)
+## 5. Install Poetry
+
+Use `pipx` for isolated installation:
 
 ```bash
-curl -sSL https://install.python-poetry.org | python3 -
+pipx install poetry
+```
+
+Ensure `pipx` is installed; if not, install it first:
+
+```bash
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
 ```
 
 ---
 
-### 6. Initialize Poetry in the Folder
+## 6. Initialize Poetry in the Project
 
 ```bash
-poetry init --no-interaction
+poetry init
 ```
+
+Follow the prompts to set up your `pyproject.toml`. For a minimal setup, you can skip adding dependencies during initialization.
 
 ---
 
-### 7. Replace `pyproject.toml` With the Custom Rig
+## 7. Configure `pyproject.toml`
+
+Replace the contents of `pyproject.toml` with the following:
 
 ```toml
 [tool.poetry]
@@ -70,8 +89,6 @@ authors = ["Tony Stark"]
 
 [tool.poetry.dependencies]
 python = ">=3.12,<4.0"
-crawl4ai = "*"
-playwright = "*"
 python-dotenv = "*"
 
 [tool.poetry.group.dev.dependencies]
@@ -80,77 +97,72 @@ pytest = "*"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-# 📦 Uncomment when project structure grows:
-# packages = [
-#   { include = "agents" },
-#   { include = "utils" },
-#   { include = "langgraph" }
-# ]
 ```
 
-> 🔍 **Note:** TOML doesn't officially support `#` comments inside arrays. You must move that block outside or comment the entire array manually as a string if needed.
+**Note:** To use Poetry solely for dependency management without packaging, set `package-mode = false`:
+
+```toml
+[tool.poetry]
+package-mode = false
+```
 
 ---
 
-### 8. Install Dependencies Without Project Root Packaging
+## 8. Install Dependencies Without Installing the Root Project
 
 ```bash
 poetry install --no-root
 ```
 
+This installs all dependencies specified in `pyproject.toml` without installing the project itself. Useful for projects that are not intended to be packages.
+
 ---
 
-### 9. Enable `poetry shell` (Poetry v2+ doesn’t include it by default)
+## 9. Activate the Virtual Environment
 
 ```bash
 poetry self add poetry-plugin-shell
-```
-
-Then:
-
-```bash
 poetry shell
 ```
 
-> 💬 Inside the shell, your prompt will look like:
-> `(crawl4ai-exp-project-v1-py3.12)` — You can change this name (see bottom of this doc)
+**Optional:** To customize the virtual environment prompt:
+
+```bash
+poetry config virtualenvs.prompt "c4ai"
+```
+
+Then recreate the virtual environment:
+
+```bash
+poetry env remove python
+poetry install --no-root
+poetry shell
+```
+
+Your prompt should now display `(c4ai)` instead of the long default name.
 
 ---
 
-### 10. Test With a Simple Run
+## 10. Test the Setup
+
+Create a simple `main.py` to verify the environment:
+
+```python
+print("Environment setup is successful!")
+```
+
+Run the script:
 
 ```bash
 python main.py
 ```
 
-✅ Everything should execute inside the poetry-managed virtual environment.
+You should see:
 
----
-
-## 🎨 How to Shorten the Virtualenv Name in Terminal Prompt
-
-Poetry names the virtualenv based on project name + Python version. To customize it:
-
-1. Rename the folder under:
-
-```bash
-~/.cache/pypoetry/virtualenvs/
+```
+Environment setup is successful!
 ```
 
-2. Update the `.venv` symlink in your project (optional)
-3. Or just ignore it — it’s only cosmetic 😅
-
 ---
 
-## 🧪 Verified by Tony & Jarvis
-
-This is the official rig that powers:
-
-* CyberGenesis
-* CyberDocs
-* CyberVector
-* And all LangGraph AI agent orchestration labs
-
-Clone. Repeat. Dominate. 💥
-
+This is the official Stark-Certified Python rig for repeatable, clean, and professional project environments.
