@@ -71,6 +71,16 @@ Follow the prompts to set up your `pyproject.toml`. For a minimal setup, you can
 
 ## 7. Configure `pyproject.toml`
 
+> 💡 **Tip for future modular projects:** When you start adding multiple folders like `agents/`, `utils/`, or `langgraph/`, you can uncomment the following block inside `pyproject.toml` to make them installable local packages:
+>
+> ```toml
+> # packages = [
+> #   { include = "agents" },
+> #   { include = "utils" },
+> #   { include = "langgraph" }
+> # ]
+> ```
+
 Replace the contents of `pyproject.toml` with the following:
 
 ```toml
