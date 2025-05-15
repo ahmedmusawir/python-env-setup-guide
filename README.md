@@ -49,19 +49,12 @@ pyenv local 3.12.3
 
 ---
 
-## 5. Install Poetry
+## 5. Install Poetry (Simplified)
 
-Use `pipx` for isolated installation:
-
-```bash
-pipx install poetry
-```
-
-Ensure `pipx` is installed; if not, install it first:
+Use `pip` to install Poetry directly:
 
 ```bash
-python3 -m pip install --user pipx
-python3 -m pipx ensurepath
+pip install poetry
 ```
 
 ---
@@ -121,11 +114,14 @@ This installs all dependencies specified in `pyproject.toml` without installing 
 ## 9. Activate the Virtual Environment
 
 ```bash
-poetry self add poetry-plugin-shell
 poetry shell
 ```
 
-**Optional:** To customize the virtual environment prompt:
+---
+
+## 10. (Optional) Customize the Virtual Environment Prompt
+
+If the default environment prompt is too long (e.g., `(crawl4ai-exp-project-v1-py3.12)`), you can shorten it:
 
 ```bash
 poetry config virtualenvs.prompt "c4ai"
@@ -139,11 +135,11 @@ poetry install --no-root
 poetry shell
 ```
 
-Your prompt should now display `(c4ai)` instead of the long default name.
+Your prompt will now display as `(c4ai)` instead.
 
 ---
 
-## 10. Test the Setup
+## 11. Test the Setup
 
 Create a simple `main.py` to verify the environment:
 
